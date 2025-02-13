@@ -89,7 +89,6 @@ public static String AutenticarUsuario(String email, String senha) {
               String emailSalvo = dados[2];
               String senhaSalva = dados[3];
               if (emailSalvo.equals(email) && senhaSalva.equals(senha)) {
-                  System.out.println("Login bem-sucedido! Bem-vindo, " + dados[1] + "!");
                   return dados[0];
               }
           }

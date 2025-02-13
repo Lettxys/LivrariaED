@@ -7,13 +7,12 @@ import Livraria.SU.UsuarioServices;
 public class LoginSystem {
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void iniciar() {
-        boolean logado = false;
+    public static int iniciar() {
         System.out.println("Bem-vindo ao sistema de login e registro da Livraria!");
 
-        while (!logado) {
+        while (true) {
             System.out.println("\nDigite: \n1 - Login \n2 - Registrar:");
-            
+
             int opcao;
             try {
                 opcao = Integer.parseInt(scanner.nextLine());
@@ -22,22 +21,20 @@ public class LoginSystem {
                 continue;
             }
 
-            switch (opcao) {
-                case 1:
-                    logado = fazerLogin();
-                    break;
-                case 2:
-                    registrarUsuario();
-                    break;
-                default:
-                    System.out.println("Opção inválida! Escolha 1 para Login ou 2 para Registrar.");
+            if (opcao == 1) {
+                int userId = fazerLogin();
+                if (userId != -1) {
+                    return userId;
+                }
+            } else if (opcao == 2) {
+                registrarUsuario();
+            } else {
+                System.out.println("Opção inválida! Escolha 1 para Login ou 2 para Registrar.");
             }
         }
-
-        System.out.println("Sistema iniciado com sucesso! (Usuário logado)");
     }
 
-    private static boolean fazerLogin() {
+    private static int fazerLogin() {
         System.out.print("Digite seu email: ");
         String email = scanner.nextLine();
 
@@ -45,13 +42,14 @@ public class LoginSystem {
         String senha = scanner.nextLine();
 
         String user = UsuarioServices.AutenticarUsuario(email, senha);
+        int userId = Integer.valueOf(user);
 
-        if (user != null) {
-            System.out.println("Login realizado com sucesso! Bem-vindo, " + user + "!");
-            return true;
+        if (userId != -1) {
+            System.out.println("Login realizado com sucesso! Seu ID: " + userId);
+            return userId; 
         } else {
             System.out.println("Email ou senha incorretos. Tente novamente.");
-            return false;
+            return -1;
         }
     }
 
