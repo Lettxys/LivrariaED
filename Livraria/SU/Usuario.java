@@ -34,18 +34,8 @@ public class Usuario {
 
 }
 
-class Vendedor extends Usuario {
-    public Vendedor(String nome, String email, String senha) {
-        super(nome, email, senha);
-    }
-}
 class Cliente extends Usuario {
     public Cliente(String nome, String email, String senha) {
-        super(nome, email, senha);
-    }
-}
-class Gerenete extends Usuario {
-    public Gerenete(String nome, String email, String senha) {
         super(nome, email, senha);
     }
 }

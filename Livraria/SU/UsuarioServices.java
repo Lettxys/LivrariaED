@@ -80,17 +80,17 @@ public class UsuarioServices {
     }
 }
 
-public static boolean AutenticarUsuario(String email, String senha) {
+public static String AutenticarUsuario(String email, String senha) {
   try (BufferedReader reader = new BufferedReader(new FileReader(RepositorioUsuario))) {
       String linha;
       while ((linha = reader.readLine()) != null) {
           String[] dados = linha.split(";");
-          if (dados.length >= 4) { // Verifica se tem todos os campos (id, nome, email, senha)
+          if (dados.length >= 4) {
               String emailSalvo = dados[2];
               String senhaSalva = dados[3];
               if (emailSalvo.equals(email) && senhaSalva.equals(senha)) {
                   System.out.println("Login bem-sucedido! Bem-vindo, " + dados[1] + "!");
-                  return true;
+                  return dados[0];
               }
           }
       }
@@ -98,8 +98,25 @@ public static boolean AutenticarUsuario(String email, String senha) {
       System.out.println("Erro ao ler o arquivo: " + e.getMessage());
   }
   System.out.println("E-mail ou senha incorretos.");
-  return false;
+  return null;
 }
 
+public static Usuario BuscarUsuarioPorId(int id) {
+  try (BufferedReader reader = new BufferedReader(new FileReader(RepositorioUsuario))) {
+      String linha;
+      while ((linha = reader.readLine()) != null) {
+          String[] dados = linha.split(";");
+          if (dados.length == 4) {
+              int idSalvo = Integer.parseInt(dados[0]);
+              if (idSalvo == id) {
+                  return new Usuario(id, dados[1], dados[2], dados[3]);
+              }
+          }
+      }
+  } catch (IOException e) {
+      System.out.println("Erro ao ler o arquivo: " + e.getMessage());
+  }
+  return null;
+}
 }
 
